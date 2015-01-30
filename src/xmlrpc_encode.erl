@@ -35,7 +35,7 @@ payload({call, Name, Params}) when is_atom(Name), is_list(Params) ->
 	{error, Reason} -> {error, Reason};
 	EncodedParams ->
 	    EncodedPayload =
-		["<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><methodCall><methodName>",
+		["<?xml version=\"1.0\" encoding=\"UTF-8\"?><methodCall><methodName>",
 		 atom_to_list(Name), "</methodName>", EncodedParams,
 		 "</methodCall>"],
 	    {ok, EncodedPayload}
@@ -104,7 +104,7 @@ encode({base64, Base64}) ->
     end;
 encode(Value) ->
     case xmlrpc_util:is_string(Value) of
-	yes -> ["<string>", escape_string(Value), "</string>"];
+	yes -> [escape_string(Value)];
 	no -> {error, {bad_value, Value}}
     end.
 
